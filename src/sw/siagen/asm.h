@@ -61,7 +61,7 @@ enum si_fmt_enum
 	/* Vector Memory Buffer Formats */
 	SI_FMT_MUBUF,
 	SI_FMT_MTBUF,
-	
+
 	/* Vector Memory Image Format */
 	SI_FMT_MIMG,
 
