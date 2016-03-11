@@ -291,7 +291,7 @@ void printOpSpecificUT(int type, std::vector<Instr_Sel> &ops, int cnt)
 				break;
 			case REG_SCC:
 
-				//generate condition to branch
+				//generate condition scc = 1
 				generate_scc(true);
 
 				//set target to conditional instruction after fillers
@@ -301,7 +301,7 @@ void printOpSpecificUT(int type, std::vector<Instr_Sel> &ops, int cnt)
 				//add 5 filler instructions
 				add5scalarinstrs();
 
-				//generate condition to not branch
+				//generate condition scc = 0
 				generate_scc(false);
 
 				//set target to endpgm
@@ -316,6 +316,39 @@ void printOpSpecificUT(int type, std::vector<Instr_Sel> &ops, int cnt)
 				break;
 			}
 
+		}
+		else if (!ops[i].instr.instr_dep.branch_flg)
+		{
+			switch (ops[i].instr.instr_dep.cond_reg)
+			{
+			case NO_REG:
+
+				randomizeOperand();
+				ops[i].instr_func(ops[i].instr.opcode);
+
+				break;
+			case REG_VCCZ:
+				break;
+			case REG_EXECZ:
+				break;
+			case REG_SCC:
+
+				//generate condition scc = 1
+				generate_scc(true);
+
+				randomizeOperand();
+				ops[i].instr_func(ops[i].instr.opcode);
+
+				//generate condition scc = 0
+				generate_scc(false);
+
+				randomizeOperand();
+				ops[i].instr_func(ops[i].instr.opcode);
+
+				break;
+			default:
+				break;
+			}
 		}
 		else
 		{
