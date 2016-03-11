@@ -43,7 +43,10 @@ std::vector<Instr> sopp_ops = {
 std::vector<Instr> sop1_ops = {
   { 0x03, "mov_b32", {false, NO_REG} },
   { 0x04, "mov_b64", {false, NO_REG} },
+  { 0x05, "cmov_b32", {false, REG_SCC} },
   { 0x07, "not_b32", {false, NO_REG} },
+  { 0x0B, "brev_b32",{ false, NO_REG } },
+  { 0x19, "sext_i32_i8",{ false, NO_REG } },
   { 0x24, "and_saveexec_b64", {false, NO_REG} }
 };
 
@@ -53,6 +56,7 @@ std::vector<Instr> sop2_ops = {
   { 0x03, "sub_i32", {false, NO_REG} },
   { 0x07, "min_u32", {false, NO_REG} },
   { 0x09, "max_u32", {false, NO_REG} },
+  { 0x0A, "cselect_b32",{ false, REG_SCC } },
   { 0x0E, "and_b32", {false, NO_REG} },
   { 0x0F, "and_b64", {false, NO_REG} },
   { 0x10, "or_b32", {false, NO_REG} },
