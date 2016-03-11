@@ -31,7 +31,7 @@ extern operandValues opvals;
 extern configValues configs;
 
 std::vector<Instr> sopp_ops = {
-  { 0x02, "branch", {false, NO_REG} },
+  { 0x02, "branch", {true, NO_REG} },
   { 0x04, "cbranch_scc0", {true, REG_SCC} },
   { 0x05, "cbranch_scc1", {true, REG_SCC} },
   { 0x06, "cbranch_vccz", {true, REG_VCCZ} },

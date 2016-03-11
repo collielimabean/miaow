@@ -116,10 +116,10 @@ void generate_scc(bool val)
 	union si_inst_microcode_t instr;
 	if (!val)
 	{
-		instr.sop2.ssrc0 = (rand() % configs.scalar_reg / 2) * 2;
-		instr.sop2.ssrc1 = instr.sop2.ssrc0;
+		instr.sop2.ssrc0 = 128;
+		instr.sop2.ssrc1 = 128;
 		instr.sop2.sdst = instr.sop2.ssrc0;
-		instr.sop2.op = 0x12; // S_XOR_B32
+		instr.sop2.op = 0x0E; // S_AND_B32
 		instr.sop2.enc = 0x2; // 10
 		instr.sop2.lit_cnst = opvals.lit_cnst;
 		printInstruction32(&instr);
@@ -150,14 +150,14 @@ void generate_scc(bool val)
 void instruction_sopp(int opcode) {
 	union si_inst_microcode_t instr;
 
-	instr.sopp.simm16 = (opcode == 1) ? 0 : (opvals.imm16%5);
+	instr.sopp.simm16 = (opcode == 1) ? 0 : (opvals.imm16);
 	instr.sopp.op = opcode;
 	instr.sopp.enc = 0x17F; // 1 0111 1111
 
 	randomizeOperand();
 	instruction_vop2(0x25);
 	printInstruction32(&instr);
-	add5scalarinstrs();
+	//add5scalarinstrs();
 }
 
 void instruction_sopp_endpgm() {
