@@ -111,6 +111,42 @@ void add5scalarinstrs() {
 	}
 }
 
+void generate_scc(bool val)
+{
+	union si_inst_microcode_t instr;
+	if (!val)
+	{
+		instr.sop2.ssrc0 = (rand() % configs.scalar_reg / 2) * 2;
+		instr.sop2.ssrc1 = instr.sop2.ssrc0;
+		instr.sop2.sdst = instr.sop2.ssrc0;
+		instr.sop2.op = 0x12; // S_XOR_B32
+		instr.sop2.enc = 0x2; // 10
+		instr.sop2.lit_cnst = opvals.lit_cnst;
+		printInstruction32(&instr);
+	}
+	else
+	{
+		/*
+		instr.sopk.simm16 = 5; // hard code a non-zero value
+		instr.sopk.sdst = opvals.sdest;
+		instr.sopk.op = 0x0; // S_MOVK_I32
+		instr.sopk.enc = 0xB; // 1011
+		printInstruction32(&instr);
+		*/
+
+		// instr.sop2.ssrc0 = opvals.sdest;
+		// instr.sop2.ssrc1 = instr.sop2.ssrc0;
+		// instr.sop2.sdst = instr.sop2.ssrc0;
+		instr.sop2.ssrc0 = 129; // scalar register which contains 1
+		instr.sop2.ssrc1 = 129;
+		instr.sop2.sdst = opvals.sdest;
+		instr.sop2.op = 0x10; // S_OR_B32
+		instr.sop2.enc = 0x2; // 10
+		instr.sop2.lit_cnst = opvals.lit_cnst;
+		printInstruction32(&instr);
+	}
+}
+
 void instruction_sopp(int opcode) {
 	union si_inst_microcode_t instr;
 

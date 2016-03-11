@@ -270,10 +270,63 @@ void printOpSpecificUT(int type, std::vector<Instr_Sel> &ops, int cnt)
         // open output files
         openOutputFiles();
 
-        // write instruction and endpgm
-        randomizeOperand();
-        ops[i].instr_func(ops[i].instr.opcode);
-        instruction_sopp_endpgm();
+		if (ops[i].instr.instr_dep.branch_flg)
+		{
+
+			switch (ops[i].instr.instr_dep.cond_reg)
+			{
+			case NO_REG:
+
+				//set target to conditional instruction after fillers
+				opvals.imm16 = 5;
+				ops[i].instr_func(ops[i].instr.opcode);
+
+				//add 5 filler instructions
+				add5scalarinstrs();
+
+				break;
+			case REG_VCCZ:
+				break;
+			case REG_EXECZ:
+				break;
+			case REG_SCC:
+
+				//generate condition to branch
+				generate_scc(true);
+
+				//set target to conditional instruction after fillers
+				opvals.imm16 = 5;
+				ops[i].instr_func(ops[i].instr.opcode);
+
+				//add 5 filler instructions
+				add5scalarinstrs();
+
+				//generate condition to not branch
+				generate_scc(false);
+
+				//set target to endpgm
+				opvals.imm16 = 5;
+				ops[i].instr_func(ops[i].instr.opcode);
+
+				//add fillers
+				add5scalarinstrs();
+				
+				break;
+			default:
+				break;
+			}
+
+		}
+		else
+		{
+			// write other instructions
+			randomizeOperand();
+			ops[i].instr_func(ops[i].instr.opcode);
+			
+		}
+        
+		//write endpgm
+		instruction_sopp_endpgm();
 
         // write config and data.mem
         writeConfigFile();
